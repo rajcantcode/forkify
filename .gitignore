@@ -1,3 +1,14 @@
+#img
+*.img
+*.png
+*.svg
+
+#prettier
+.prettierrc
+
+#parcel
+.parcel-cache
+
 # Logs
 logs
 *.log

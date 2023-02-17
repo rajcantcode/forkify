@@ -9,65 +9,6 @@ class RecipeView extends View {
     _errorMsg = `We could not find that recipe. Please try another one!`;
     _successMsg = ``;
 
-    // render(data) {
-    //     this._data = data;
-    //     const markup = this._generateMarkup();
-    //     this._clear();
-    //     this._parentEl.insertAdjacentHTML('afterbegin', markup);
-    // }
-
-    render(data) {
-        super.render(data)
-    }
-
-    _clear() {
-        super._clear();
-        // this._parentEl.innerHTML = '';
-    }
-
-    renderSpinner() {
-        super.renderSpinner();
-        // const markup = `
-        // <div class="spinner">
-        //   <svg>
-        //     <use href="${icons}.svg#icon-loader"></use>
-        //   </svg>
-        // </div>
-        // `;
-        // this._clear();
-        // this._parentEl.insertAdjacentHTML('afterbegin', markup);
-    };
-
-    renderError(message = this._errorMsg) {
-        super.renderError(message);
-        // const markup = `
-        // <div class="error">
-        //     <div>
-        //         <svg>
-        //             <use href="${icons}.svg#icon-alert-triangle"></use>
-        //         </svg>
-        //     </div>
-        //     <p>${message}</p>
-        // </div>`
-        // this._clear();
-        // this._parentEl.insertAdjacentHTML('afterbegin', markup);
-    }
-
-    renderSuccess(message = this._successMsg) {
-        super.renderSuccess(message);
-        // const markup = `
-        // <div class="error">
-        //     <div>
-        //         <svg>
-        //             <use href="${icons}.svg#icon-alert-triangle"></use>
-        //         </svg>
-        //     </div>
-        //     <p>${message}</p>
-        // </div>`
-        // this._clear();
-        // this._parentEl.insertAdjacentHTML('afterbegin', markup);
-    }
-
     addHandlerRender(callback) {
         ['hashchange', 'load'].forEach(ev => window.addEventListener(ev, callback));
     }

@@ -2,6 +2,7 @@ import * as model from './model.js';
 import recipeView from './views/recipeView.js';
 import searchView from './views/searchView.js';
 import resultsView from './views/resultsView.js';
+import paginationView from './views/paginationView.js';
 
 // Polyfilling
 import 'core-js/stable';
@@ -45,16 +46,28 @@ const controlSearhResults = async function () {
 
     // Render results
     // resultsView.render(model.state.search.results);
-    resultsView.render(model.getSearchResultsPage(3));
+    resultsView.render(model.getSearchResultsPage());
+
+    // Load pagination buttons
+    paginationView.render(model.state.search);
   }
   catch (err) {
     console.error(err);
   }
 };
 
+// Controller for Pagination
+const controlPagination = function (goToPage) {
+  // Load new results
+  resultsView.render(model.getSearchResultsPage(goToPage));
+  // Render new buttons
+  paginationView.render(model.state.search)
+}
+
 const init = function () {
   recipeView.addHandlerRender(controlRecipes);
   searchView.addHandlerSearch(controlSearhResults);
+  paginationView.addHandlerClick(controlPagination);
 }
 init();
 

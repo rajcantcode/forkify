@@ -10,6 +10,7 @@ export const state = {
         curPage: 1,
         resultsPerPage: RES_PER_PAGE
     },
+    bookmarks: []
 };
 
 export const loadRecipe = async function (id) {
@@ -28,6 +29,8 @@ export const loadRecipe = async function (id) {
             cookingTime: recipe.cooking_time,
             ingredients: recipe.ingredients,
         };
+        // Checking if the loaded recipe is bookmarked already
+        state.recipe.bookmarked = state.bookmarks.some(bookmark => bookmark.id === id);
         console.log(state.recipe);
     } catch (err) {
         console.error(`${err} 💥💥💥💥`);
@@ -48,6 +51,7 @@ export const loadSearchResults = async function (query) {
                 image: recipe.image_url,
             };
         });
+        state.search.curPage = 1;
     } catch (err) {
         console.error(err);
         throw err;
@@ -68,4 +72,40 @@ export const updateRecipeServings = function (newServings) {
         ing.quantity = ing.quantity * (newServings / state.recipe.servings);
     })
     state.recipe.servings = newServings
+}
+
+// Add bookmarks to local storage
+const persistBookmarks = function () {
+    localStorage.setItem('bookmarks', JSON.stringify(state.bookmarks));
+}
+
+// Add bookmarks
+export const addBookmark = function (recipe) {
+    // Push recipe in bookmarks array
+    state.bookmarks.push(recipe);
+
+    // Mark current recipe as bookmark
+    if (recipe.id === state.recipe.id) state.recipe.bookmarked = true;
+    persistBookmarks();
+}
+
+// Delete bookmarks
+export const deleteBookmark = function (id) {
+    const index = state.bookmarks.findIndex(bookmark => bookmark.id === id);
+    state.bookmarks.splice(index, 1);
+    if (id === state.recipe.id) state.recipe.bookmarked = false;
+    persistBookmarks();
+}
+
+// GET bookmarks from localstorage
+const init = function () {
+    const storage = localStorage.getItem('bookmarks');
+    if (storage) state.bookmarks = JSON.parse(storage);
+}
+init();
+console.log(state.bookmarks);
+
+// CLEAR local storage
+const clearBookmarks = function () {
+    localStorage.clear('bookmarks');
 }

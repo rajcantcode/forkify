@@ -22,6 +22,9 @@ const controlRecipes = async function () {
     // Show spinner until image is loaded
     recipeView.renderSpinner();
 
+    // Update results view to mark selected search results
+    resultsView.updateData(model.getSearchResultsPage());
+
     // Load recipe
     await model.loadRecipe(id);
 
@@ -52,8 +55,7 @@ const controlSearhResults = async function () {
 
     // Load pagination buttons
     paginationView.render(model.state.search);
-  }
-  catch (err) {
+  } catch (err) {
     console.error(err);
   }
 };
@@ -63,8 +65,8 @@ const controlPagination = function (goToPage) {
   // Load new results
   resultsView.render(model.getSearchResultsPage(goToPage));
   // Render new buttons
-  paginationView.render(model.state.search)
-}
+  paginationView.render(model.state.search);
+};
 
 // Control servings
 const controlServings = function (newServing) {
@@ -72,17 +74,15 @@ const controlServings = function (newServing) {
   model.updateRecipeServings(newServing);
 
   // Render new recipe view, after updating servings
-  recipeView.render(model.state.recipe);
-
-}
-
+  recipeView.updateData(model.state.recipe);
+};
 
 const init = function () {
   recipeView.addHandlerRender(controlRecipes);
   searchView.addHandlerSearch(controlSearhResults);
   paginationView.addHandlerClick(controlPagination);
   recipeView.addHandlerUpdateServings(controlServings);
-}
+};
 init();
 
 // https://forkify-api.herokuapp.com/v2
